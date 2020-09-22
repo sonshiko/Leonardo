@@ -1,21 +1,33 @@
 /* */
+header {
+	height: 9vh;
+	min-height: 20px;
+	background-image: url('../img/header.jpg');
+}
 
 .wrapper {	
 	display: flex;
 	flex-direction: row;
+	height: 82vh;	
 	background-color: gray;
 }
 
 .img-holder {
 	width: 87%;
-	height: auto;
+	height: auto;	
 	border: 1px solid;
 	margin: 1%;
 }
 
 .controll-panel {
 	width: 10%;
-	height: auto;
+	height: auto;	
 	border: 1px solid;
 	margin: 1% 1% 1% 0;
+}
+
+footer {
+	height: 9vh;
+	min-height: 20px;
+	background-image: url('../img/header.jpg');
 }
