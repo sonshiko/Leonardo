@@ -1,4 +1,9 @@
 /* */
+
+html {
+	font-size: 100%;
+}
+
 header {
 	height: 9vh;
 	min-height: 20px;
@@ -9,7 +14,6 @@ header {
 	display: flex;
 	flex-direction: row;
 	height: 82vh;	
-	background-color: gray;
 }
 
 .img-holder {
@@ -24,6 +28,34 @@ header {
 	height: auto;	
 	border: 1px solid;
 	margin: 1% 1% 1% 0;
+}
+
+figure {
+  border: 1px #cccccc solid;
+  padding: 2% 2% 0% 2%;  
+  margin: 0 auto;
+}
+
+figcaption {
+  background-color: black;
+  color: white;
+  font-style: italic;
+  padding: 0px 2px 2px 2px;
+  text-align: center;
+}
+
+.buttons {
+	width: 100%;
+	
+
+}
+
+#originalPicture {
+		
+}
+
+#artistsPicture {
+
 }
 
 footer {
