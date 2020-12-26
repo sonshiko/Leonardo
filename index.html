@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style-box-sizing.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<!-- include a file with js to this document -->
-	<script type="text/javascript" src="js/leonardo.js"></script>
+
 </head>
 <!-- <body onload="setHeight()" onresize="setHeight()"> -->
 <body>
@@ -16,17 +16,33 @@
 	
 	<header class="header">
 		<div>
-			
+			<button class="btn"
+					id="sidebar-position">Sidebar right</button>
+			<input type="file"
+				   id="original" name="original"
+				   placeholder="Original file"
+				   accept="image/png, image/jpeg">
+			<input type="file"
+				   id="copy" name="copy"
+				   placeholder="Your file"
+				   accept="image/png, image/jpeg">
 		</div>	
 	</header>
 	<!-- End of header -->
 	<!-- Main -->
 	<main class="main">
 		<!-- -->
-		<div id="main-container" class="wrapper">
+		<div id="main-container" class="wrapper ">
 			<!-- The area to load pictures -->
 			<div class="img-holder">
-				img-holder
+<!--				<p id="b64" style="display: none;"></p>-->
+<!--				<img id="img" height="100%">-->
+				<div class="original-image">
+					<canvas id="original-image"></canvas>
+				</div>
+				<div class="copy-image">
+					<canvas id="copy-image"></canvas>
+				</div>
 			</div>
 			<!-- Right-side area with interface -->
 			<div class="controll-panel">
@@ -59,4 +75,5 @@
 	</footer>
 	<!-- End of footer -->
 </body>
+<script type="text/javascript" src="js/leonardo.js"></script>
 </html>

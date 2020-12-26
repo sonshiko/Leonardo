@@ -16,11 +16,16 @@ header {
 	height: 82vh;	
 }
 
+.wrapper-reverse {
+	flex-direction: row-reverse;
+}
+
 .img-holder {
 	width: 87%;
 	height: auto;	
 	border: 1px solid;
 	margin: 1%;
+	position: relative;
 }
 
 .controll-panel {
@@ -62,4 +67,29 @@ footer {
 	height: 9vh;
 	min-height: 20px;
 	background-image: url('../img/header.jpg');
+}
+
+.btn {
+	display: inline-block;
+	appearance: none;
+	-webkit-appearance: none;
+	cursor: pointer;
+	padding: 5px;
+	background: aliceblue;
+	border-radius: 2px;
+	color: darkmagenta;
+	border: 1px rgba(0,0,0,0.3);
+	box-shadow: inset -2px -2px 1px rgba(0, 0, 0, 0.3);
+}
+
+.original-image,
+.copy-image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.copy-image {
+	opacity: 0.5;
 }
