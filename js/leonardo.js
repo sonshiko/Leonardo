@@ -1,13 +1,13 @@
-function setHeight() {	
+/*function setHeight() {	
 	divHeight = window.innerHeight;	
 	document.getElementById("main-container").style.height = divHeight + 'px';
-}
+}*/
 
 window.onload = main();
 
 function main() {
-	let sidebarPosition = 'right';
-	let documentWrapper = document.getElementById('main-container');
+	
+	
 	var canvasOrig = document.getElementById("original-image");
 	var canvasCopy = document.getElementById("copy-image");
 	var ctxOrig = canvasOrig.getContext("2d");
@@ -56,12 +56,15 @@ function readFile(imgType, imgSource, targetFile) {
 
 function switchSidebar() {
 	let switchSidebarBtn = document.getElementById('sidebar-position');
-
+	let sidebarPosition = 'right';
+	let documentWrapper = document.getElementById('main-container');
 	switchSidebarBtn.addEventListener('click', function() {
 		if (sidebarPosition === 'right') {
 			sidebarPosition = 'left';
+			document.getElementById('sidebar-position').innerHTML = "Sidebar right";
 		} else {
 			sidebarPosition = 'right';
+			document.getElementById('sidebar-position').innerHTML = "Sidebar left";
 		}
 		documentWrapper.classList.toggle('wrapper-reverse');
 	})
