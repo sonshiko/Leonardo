@@ -36,13 +36,11 @@
 		<div id="main-container" class="wrapper">
 			<!-- The area to load pictures -->
 			<div class="img-holder">
-<!--				<p id="b64" style="display: none;"></p>-->
-<!--				<img id="img" height="100%">-->
-				<div class="original-image">
-					<canvas id="original-image"></canvas>
+				<div class="canvas-wrapper">
+					<canvas id="original-image" class="original-image"></canvas>
 				</div>
-				<div class="copy-image">
-					<canvas id="copy-image"></canvas>
+				<div class="canvas-wrapper">
+					<canvas id="copy-image" class="copy-image"></canvas>
 				</div>
 			</div>
 			<!-- Right-side area with interface -->
@@ -61,7 +59,14 @@
 						<img id="artistsPicture" class="buttons" src="img/button-custom.jpg" alt="Press this button to load your picture">
 						<figcaption>Your picture</figcaption>
 					</figure>
-				</div>				
+				</div>
+				<div>
+					<label for="opacity">Opacity:</label>
+					<input type="range" id="opacity" name="opacity"
+						   value="0.5"
+						   min="0" max="1" step="0.05">
+				</div>
+
 			</div>
 		</div>
 	</main>
