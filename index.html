@@ -19,14 +19,8 @@
 			<button class="btn" id="sidebar-position">
 				Sidebar left
 			</button>
-			<input type="file"
-				   id="original" name="original"
-				   placeholder="Original file"
-				   accept="image/png, image/jpeg">
-			<input type="file"
-				   id="copy" name="copy"
-				   placeholder="Your file"
-				   accept="image/png, image/jpeg">
+
+
 		</div>	
 	</header>
 	<!-- End of header -->
@@ -36,11 +30,12 @@
 		<div id="main-container" class="wrapper">
 			<!-- The area to load pictures -->
 			<div class="img-holder">
-				<div class="canvas-wrapper">
+				<div class="canvas-wrapper" id="original-wrapper">
 					<canvas id="original-image" class="original-image"></canvas>
 				</div>
-				<div class="canvas-wrapper">
-					<canvas id="copy-image" class="copy-image"></canvas>
+				<div class="canvas-wrapper" id="copy-wrapper">
+					<canvas id="copy-image"
+							class="copy-image"></canvas>
 				</div>
 			</div>
 			<!-- Right-side area with interface -->
@@ -52,12 +47,22 @@
 						<img id="originalPicture" class="buttons" src="img/button-orig.jpg" alt="Press this button to load original picture">
 						<figcaption>Original picture</figcaption>
 					</figure>
+					<input type="file"
+						   class="btn "
+						   id="original" name="original"
+						   placeholder="Original file"
+						   accept="image/png, image/jpeg">
 				</div>
 				<div>
 					<figure>
 						<!-- <button id="artistsPicture" class="buttons" type="button">Load the your own picture</button> -->
 						<img id="artistsPicture" class="buttons" src="img/button-custom.jpg" alt="Press this button to load your picture">
 						<figcaption>Your picture</figcaption>
+						<input type="file"
+							   class="btn"
+							   id="copy" name="copy"
+							   placeholder="Your file"
+							   accept="image/png, image/jpeg">
 					</figure>
 				</div>
 				<div>
@@ -73,8 +78,10 @@
 						   min="0" max="100" step="1">
 				</div>
 				<div>
-					<button id="moveUp">Up</button>
-					<button id="moveLeft">Left</button>
+					<button class="btn move-btn"id="Up">Up</button>
+					<button class="btn move-btn"id="Left">Left</button>
+					<button class="btn move-btn"id="Bottom">Bottom</button>
+					<button class="btn move-btn"id="Right">Right</button>
 				</div>
 
 			</div>

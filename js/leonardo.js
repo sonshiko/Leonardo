@@ -20,8 +20,10 @@ const plagiart = {
 		this.canvasOrig.height = this.canvasHeight;
 		this.canvasCopy.width = this.canvasWidth;
 		this.canvasCopy.height = this.canvasHeight;
-		this.moveUp = document.getElementById('moveUp');
-		this.moveLeft = document.getElementById('moveLeft');
+		this.moveUp = document.getElementById('Up');
+		this.moveLeft = document.getElementById('Left');
+		this.moveBottom = document.getElementById('Bottom');
+		this.moveRight = document.getElementById('Right');
 
 		var ctxOrig = this.canvasOrig.getContext("2d");
 		var ctxCopy = this.canvasCopy.getContext("2d");
@@ -55,12 +57,21 @@ const plagiart = {
 		this.changeOpacity(this.canvasCopy);
 		this.changeScale(this.canvasCopy);
 		// this.trackMouse(this.canvasCopy);
+
 		this.moveUp.addEventListener('click', function () {
 			plagiart.moveCopy('up');
 		});
 
 		this.moveLeft.addEventListener('click', function () {
 			plagiart.moveCopy('left');
+		})
+
+		this.moveBottom.addEventListener('click', function () {
+			plagiart.moveCopy('bottom');
+		})
+
+		this.moveRight.addEventListener('click', function () {
+			plagiart.moveCopy('right');
 		})
 	},
 
@@ -140,22 +151,37 @@ const plagiart = {
 	// }
 
 	moveCopy(direction) {
-		const step = 10;
+		const copyWrapper = document.getElementById('copy-wrapper');
+		const step = 2;
 		switch (direction) {
 			case 'up':
-				let transformProperty = this.canvasCopy.style.transform;
-				const ifTranslateY = transformProperty.indexOf('translateY');
-				if (ifTranslateY > -1) {
-					const translateY = transformProperty.slice(ifTranslateY);
-					// todo
-					debugger;
-				} else {
-					transformProperty += ` translateY(-${step}px)`;
-					this.canvasCopy.style.transform = transformProperty;
-				}
+				moveCopy(-step, 'data-vertical');
 				break;
 			case 'left':
+				moveCopy(-step, 'data-horizontal');
 				break;
+			case 'bottom':
+				moveCopy(step, 'data-vertical');
+				break;
+			case 'right':
+				moveCopy(step, 'data-horizontal');
+				break;
+		}
+
+		function moveCopy(step, dataDirection) {
+			let transformVProperty = (copyWrapper.getAttribute('data-vertical') === null) ? 0 : parseInt(copyWrapper.getAttribute('data-vertical'));
+			let transformHProperty = (copyWrapper.getAttribute('data-horizontal') === null) ? 0 : parseInt(copyWrapper.getAttribute('data-horizontal'));
+
+			if (dataDirection === 'data-horizontal') {
+				transformHProperty += step;
+				copyWrapper.setAttribute('data-horizontal', transformHProperty);
+			} else {
+				transformVProperty += step;
+				copyWrapper.setAttribute('data-vertical', transformVProperty);
+			}
+			const shiftY = 'translateY(' + transformVProperty + 'px)';
+			const shiftX = 'translateX(' + transformHProperty + 'px)';
+			copyWrapper.style.transform = shiftX + ' ' + shiftY;
 		}
 	}
 
