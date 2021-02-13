@@ -19,3 +19,7 @@
 # System Files
 .DS_Store
 Thumbs.db
+
+#other
+
+node_modules

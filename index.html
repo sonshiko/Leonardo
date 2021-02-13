@@ -19,7 +19,14 @@
 			<button class="btn" id="sidebar-position">
 				Sidebar left
 			</button>
-
+			<div>
+				<label>
+					Scale mode <input type="radio" id="scaleMode" class="mode" name="mode" checked>
+				</label>
+				<label>
+					<input type="radio" id="compareMode" name="mode" class="mode"> Compare mode
+				</label>
+			</div>
 
 		</div>	
 	</header>
@@ -33,7 +40,7 @@
 				<div class="canvas-wrapper" id="original-wrapper">
 					<canvas id="original-image" class="original-image"></canvas>
 				</div>
-				<div class="canvas-wrapper" id="copy-wrapper">
+				<div class="canvas-wrapper hidden" id="copy-wrapper">
 					<canvas id="copy-image"
 							class="copy-image"></canvas>
 				</div>
@@ -84,6 +91,17 @@
 					<button class="btn move-btn"id="Right">Right</button>
 				</div>
 
+				<div>
+					<label for="canvasWidth">
+						Enter canvas Width:
+						<input type="number" id="canvasWidth" data-input="height" class="sizeInput" value="0" disabled>
+					</label>
+					<label for="canvasHeight">
+						Enter canvas Height:
+						<input type="number" id="canvasHeight" data-input="width" class="sizeInput" value="0" disabled>
+					</label>
+				</div>
+
 			</div>
 		</div>
 	</main>
@@ -98,5 +116,5 @@
 	</footer>
 	<!-- End of footer -->
 </body>
-<script type="text/javascript" src="js/leonardo.js"></script>
+<script type="module" src="js/leonardo.js"></script>
 </html>

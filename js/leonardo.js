@@ -3,7 +3,16 @@
 	document.getElementById("main-container").style.height = divHeight + 'px';
 }*/
 
+// import getCanvasMousePosition from '@codewell/get-canvas-mouse-position';
+// import resizeCanvas from 'resize-canvas';
+//
+// resizeCanvas({
+// 	canvas: canvas,
+// 	size: [100, 50] // absolute size adjustment
+// })
+
 const plagiart = {
+
 
 	init() {
 		window.onload = this.main();
@@ -24,13 +33,22 @@ const plagiart = {
 		this.moveLeft = document.getElementById('Left');
 		this.moveBottom = document.getElementById('Bottom');
 		this.moveRight = document.getElementById('Right');
-
+		this.inputHeight = document.getElementById('canvasHeight');
+		this.inputWidth = document.getElementById('canvasWidth');
+		this.origImgHeight;
+		this.origImgWidth;
 		var ctxOrig = this.canvasOrig.getContext("2d");
 		var ctxCopy = this.canvasCopy.getContext("2d");
 
 		var imageOrig = new Image();
 		imageOrig.onload = function() {
 			plagiart.resizeCanvasToImg(plagiart.canvasOrig, imageOrig);
+			plagiart.origImgHeight = imageOrig.height;
+			plagiart.origImgWidth = imageOrig.width;
+			plagiart.inputHeight.removeAttribute('disabled');
+			plagiart.inputHeight.value = 0;
+			plagiart.inputWidth.removeAttribute('disabled');
+			plagiart.inputWidth.value = 0;
 			ctxOrig.drawImage(imageOrig, 0, 0);
 		};
 		var imageCopy = new Image();
@@ -73,6 +91,38 @@ const plagiart = {
 		this.moveRight.addEventListener('click', function () {
 			plagiart.moveCopy('right');
 		})
+
+		this.inputHeight.addEventListener('keyup', function () {
+			plagiart.inputWidth.value = this.value  * plagiart.origImgWidth / plagiart.origImgHeight;
+		})
+
+		this.inputWidth.addEventListener('keyup', function () {
+			plagiart.inputHeight.value = this.value  * plagiart.origImgHeight / plagiart.origImgWidth;
+		})
+
+		this.canvasOrig.addEventListener('click', function (event) {
+			const canvas = event.target;
+			const rect = canvas.getBoundingClientRect();
+			const coords = {
+				x: event.clientX - rect.x,
+				y: event.clientY - rect.y,
+			};
+			console.log(coords);
+		})
+		this.mode = 'scale';
+		this.modeInputs = document.getElementsByClassName('mode');
+		for( let i =0; i< this.modeInputs.length; i++) {
+			this.modeInputs[i].addEventListener('change', function(event) {
+				// todo add class to main and andd logic to change modes by it class
+				if (plagiart.mode === 'scale') {
+					plagiart.mode = 'compare';
+					document.getElementById('copy-wrapper').classList.remove('hidden');
+				} else {
+					plagiart.mode = 'scale';
+					document.getElementById('copy-wrapper').classList.add('hidden');
+				}
+			})
+		}
 	},
 
 	readFile(imgType, imgSource, targetFile) {
@@ -132,23 +182,8 @@ const plagiart = {
 	resizeCanvasToImg(canvas, image) {
 		canvas.width = image.width;
 		canvas.height = image.height;
-	},
 
-	// trackMouse(canvas) {
-	// 	canvas.addEventListener('mousemove', function(evt) {
-	// 		var mousePos = plagiart.getMousePos(canvas, evt);
-	// 		var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-	// 		console.log(message);
-	// 	}, false);
-	// },
-	//
-	// getMousePos(canvas, evt) {
-	// 	var rect = canvas.getBoundingClientRect();
-	// 	return {
-	// 		x: evt.clientX - rect.left,
-	// 		y: evt.clientY - rect.top
-	// 	};
-	// }
+	},
 
 	moveCopy(direction) {
 		const copyWrapper = document.getElementById('copy-wrapper');

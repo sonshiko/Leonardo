@@ -1,0 +1,23 @@
+{
+  "name": "leonardo",
+  "version": "1.0.0",
+  "description": "Leonardo",
+  "main": "js/leonardo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonshiko/Leonardo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sonshiko/Leonardo/issues"
+  },
+  "homepage": "https://github.com/sonshiko/Leonardo#readme",
+  "dependencies": {
+    "@codewell/get-canvas-mouse-position": "^1.0.0",
+    "resize-canvas": "^1.0.0"
+  }
+}
