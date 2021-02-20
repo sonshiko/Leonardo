@@ -14,13 +14,12 @@
 const plagiart = {
 
 
-	init() {
-		window.onload = this.main();
-
+	init(wrapperId) {
+		window.onload = this.main(wrapperId);
 	},
 
-	main() {
-
+	main(wrapperid) {
+		this.createHtml(wrapperid);
 		this.canvasOrig = document.getElementById("original-image");
 		this.canvasCopy = document.getElementById("copy-image");
 		this.canvasHeight = this.canvasOrig.parentElement.clientHeight;
@@ -66,10 +65,10 @@ const plagiart = {
 			}
 		});
 
-		let copyInput = document.getElementById('copy');
+		let copyInput = document.getElementById('clone');
 		copyInput.addEventListener('change', function() {
 			if (this.files && this.files[0]) {
-				plagiart.readFile('copy', imageCopy, this.files[0])
+				plagiart.readFile('clone', imageCopy, this.files[0])
 			}
 		});
 		this.changeOpacity(this.canvasCopy);
@@ -100,27 +99,46 @@ const plagiart = {
 			plagiart.inputHeight.value = this.value  * plagiart.origImgHeight / plagiart.origImgWidth;
 		})
 
-		this.canvasOrig.addEventListener('click', function (event) {
+		this.canvasOrig.addEventListener('mousemove', function (event) {
 			const canvas = event.target;
 			const rect = canvas.getBoundingClientRect();
 			const coords = {
 				x: event.clientX - rect.x,
 				y: event.clientY - rect.y,
 			};
-			console.log(coords);
+			const oldCanvas = {
+				width: rect.width,
+				heigth: rect.height
+			};
+			const newCanvas = {
+				width: plagiart.inputWidth.value == 0 ? rect.width : plagiart.inputWidth.value,
+				height: plagiart.inputHeight.value == 0 ? rect.height : plagiart.inputHeight.value
+			};
+			const newCoords = {
+				x: Math.round(newCanvas.width * coords.x / oldCanvas.width),
+				y: Math.round(newCanvas.height * coords.y / oldCanvas.heigth)
+			};
+
+			document.getElementById('remappedX').innerText = newCoords.x;
+			document.getElementById('remappedY').innerText = newCoords.y;
 		})
 		this.mode = 'scale';
+		const wrapper = document.getElementById('plagiartWrapper');
+		wrapper.classList.add('scale-mode');
 		this.modeInputs = document.getElementsByClassName('mode');
 		for( let i =0; i< this.modeInputs.length; i++) {
 			this.modeInputs[i].addEventListener('change', function(event) {
-				// todo add class to main and andd logic to change modes by it class
+				console.log('mode ', plagiart.mode);
 				if (plagiart.mode === 'scale') {
 					plagiart.mode = 'compare';
-					document.getElementById('copy-wrapper').classList.remove('hidden');
+					wrapper.classList.remove('scale-mode');
+					wrapper.classList.add('compare-mode');
 				} else {
 					plagiart.mode = 'scale';
-					document.getElementById('copy-wrapper').classList.add('hidden');
+					wrapper.classList.remove('compare-mode');
+					wrapper.classList.add('scale-mode');
 				}
+				console.log('mode ', plagiart.mode);
 			})
 		}
 	},
@@ -218,10 +236,142 @@ const plagiart = {
 			const shiftX = 'translateX(' + transformHProperty + 'px)';
 			copyWrapper.style.transform = shiftX + ' ' + shiftY;
 		}
+	},
+
+	createHtml(wrapperid) {
+		const content =`
+			<!-- Begin of header -->
+			<header class="header">
+				<div>
+					<button class="btn" id="sidebar-position">
+						Sidebar left
+					</button>
+					<div>
+						<label>
+							Scale mode <input type="radio" id="scaleMode" class="mode" name="mode" checked>
+						</label>
+						<label>
+							<input type="radio" id="compareMode" name="mode" class="mode"> Compare mode
+						</label>
+					</div>
+
+				</div>
+			</header>
+		<!-- End of header -->
+		<!-- Main -->
+		<main class="main">
+			<!-- -->
+			<div id="main-container" class="wrapper">
+				<!-- The area to load pictures -->
+				<div class="img-holder wrapper-inner">
+					<div class="canvas-wrapper" id="original-wrapper">
+						<canvas id="original-image" class="original-image"></canvas>
+					</div>
+					<div class="canvas-wrapper compare-mode__element" id="copy-wrapper">
+						<canvas id="copy-image"
+								class="copy-image"></canvas>
+					</div>
+				</div>
+				<!-- Right-side area with interface -->
+				<ul class="wrapper-inner panel-list controll-panel">
+					<li><b>Control Panel</b></li>
+					<li class="panel-item">
+						<!-- <button id="originalPicture" class="buttons" type="button">Load the original picture</button> -->
+						<figure>
+							<img id="originalPicture" class="buttons" src="img/button-orig.jpg" alt="Press this button to load original picture">
+								<figcaption>Original picture</figcaption>
+						</figure>
+						<label for="original" class="input-label btn full-width-btn">
+							Upload image
+							<input type="file"
+								   id="original" name="original"
+								   placeholder="Original file"
+								   accept="image/png, image/jpeg">
+						</label>
+					</li>
+					<li class="panel-item compare-mode__element">
+						<figure>
+							<!-- <button id="artistsPicture" class="buttons" type="button">Load the your own picture</button> -->
+							<img id="artistsPicture" class="buttons" src="img/button-custom.jpg" alt="Press this button to load your picture">
+								<figcaption>Your picture</figcaption>
+						</figure>
+						<label for="clone" class="input-label btn full-width-btn">
+							Upload image
+							<input type="file"
+								   id="clone" name="clone"
+								   placeholder="Your file"
+								   accept="image/png, image/jpeg">
+						</label>
+					</li>
+					<li class="panel-item compare-mode__element">
+						<label for="opacity">Opacity:</label>
+						<input type="range" id="opacity" name="opacity"
+							   class="input"
+
+							   value="0.5"
+							   min="0" max="1" step="0.05">
+					</li>
+					<li class="panel-item compare-mode__element">
+						<label for="scale">Scale:</label>
+						<input type="range" id="scale" name="scale"
+							   class="input"
+							   value="100"
+							   min="0" max="100" step="1">
+					</li>
+					<li class="panel-item compare-mode__element">
+						<div class="move-btn-wrapper">
+							<div class="move-btn-container">
+								<button class="btn move-btn" title="Up" id="Up"></button>
+								<button class="btn move-btn" title="Right" id="Right"></button>
+								<button class="btn move-btn" title="Left" id="Left"></button>
+								<button class="btn move-btn" title="Bottom" id="Bottom"></button>
+							</div>
+						</div>
+					</li>
+
+					<li class="panel-item scale-mode__element">
+						<label for="canvasWidth">
+							Enter canvas Width:
+							<input type="number"
+								   id="canvasWidth"
+								   data-input="height"
+								   class="sizeInput input" value="0"
+								   disabled>
+						</label>
+						<label for="canvasHeight">
+							Enter canvas Height:
+							<input type="number"
+								   id="canvasHeight"
+								   data-input="width"
+								   class="sizeInput input"
+								   value="0"
+								   disabled>
+						</label>
+					</li>
+					<li class="panel-item scale-mode__element">
+						<p>Point coordinates for new canvas:</p>
+						<p>By horisontal: <b id="remappedX"></b></p>
+						<p>By vertical: <b id="remappedY"></b></p>
+					</li>
+
+				</ul>
+			</div>
+		</main>
+		<!-- End of main -->
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div>
+
+			</div>
+
+		</footer>
+		<!-- End of footer -->
+		`;
+		const wrapper = document.getElementById(wrapperid);
+		wrapper.innerHTML = content;
 	}
 
 }
 
-plagiart.init();
-
-const plagiart2 = new Object(plagiart);
+plagiart.init('plagiartWrapper');
