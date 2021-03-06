@@ -36,6 +36,7 @@ header {
 	height: auto;	
 	border: 1px solid;
 	position: relative;
+	overflow: hidden;
 }
 
 .controll-panel {
@@ -233,4 +234,55 @@ textarea,
 }
 .compare-mode .scale-mode__element {
 	display: none;
+}
+
+.header-controls {
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.label-radio {
+	color: white;
+	font-size: 1.2rem;
+	position: relative;
+	padding: 0 2em;
+	vertical-align: middle;
+}
+.label-radio input + span:before,
+.label-radio input + span:after {
+	position: absolute;
+	content: '';
+	display: inline-block;
+	border-radius: 50%;
+	vertical-align: inherit;
+	top: 50%;
+	transform: translateY(-50%);
+	box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.5);
+}
+.label-radio input + span:before {
+	height: 1em;
+	width: 1em;
+	background-color: white;
+	right: 0.25em;
+}
+.label-radio input:checked + span:after {
+	height: 0.5em;
+	width: 0.5em;
+	background-color: #650e6c;
+	box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.5);
+	right: 0.5em;
+}
+input[type="radio"] {
+	display: none;
+}
+.label-radio.radio-inverted input + span:before {
+	right: inherit;
+	left: 0.25em;
+}
+.label-radio.radio-inverted input + span:after {
+	right: inherit;
+	left: 0.5em;
 }

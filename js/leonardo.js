@@ -165,10 +165,10 @@ const plagiart = {
 		switchSidebarBtn.addEventListener('click', function() {
 			if (sidebarPosition === 'right') {
 				sidebarPosition = 'left';
-				document.getElementById('sidebar-position').innerHTML = "Sidebar right";
+				document.getElementById('sidebar-position').innerHTML = "Place sidebar right";
 			} else {
 				sidebarPosition = 'right';
-				document.getElementById('sidebar-position').innerHTML = "Sidebar left";
+				document.getElementById('sidebar-position').innerHTML = "Place sidebar left";
 			}
 			documentWrapper.classList.toggle('wrapper-reverse');
 		})
@@ -242,19 +242,13 @@ const plagiart = {
 		const content =`
 			<!-- Begin of header -->
 			<header class="header">
-				<div>
-					<button class="btn" id="sidebar-position">
-						Sidebar left
-					</button>
-					<div>
-						<label>
-							Scale mode <input type="radio" id="scaleMode" class="mode" name="mode" checked>
-						</label>
-						<label>
-							<input type="radio" id="compareMode" name="mode" class="mode"> Compare mode
-						</label>
-					</div>
-
+				<div class="header-controls">
+					<label class="label-radio">
+						<input type="radio" id="scaleMode" class="mode input-radio" name="mode" checked><span>Scale mode</span>
+					</label>
+					<label class="label-radio radio-inverted">
+						<input type="radio" id="compareMode" name="mode" class="mode input-radio"><span>Compare mode</span>
+					</label>
 				</div>
 			</header>
 		<!-- End of header -->
@@ -274,7 +268,11 @@ const plagiart = {
 				</div>
 				<!-- Right-side area with interface -->
 				<ul class="wrapper-inner panel-list controll-panel">
-					<li><b>Control Panel</b></li>
+					<li>
+						<button class="btn full-width-btn" id="sidebar-position">
+							Place sidebar left
+						</button>
+					</li>
 					<li class="panel-item">
 						<!-- <button id="originalPicture" class="buttons" type="button">Load the original picture</button> -->
 						<figure>
@@ -304,19 +302,27 @@ const plagiart = {
 						</label>
 					</li>
 					<li class="panel-item compare-mode__element">
-						<label for="opacity">Opacity:</label>
-						<input type="range" id="opacity" name="opacity"
-							   class="input"
-
-							   value="0.5"
-							   min="0" max="1" step="0.05">
+						<form name="scaleForm" oninput="opacityvalue.value = opacity.valueAsNumber">
+							<label for="opacity">Opacity:</label>
+							<output name="opacityvalue" for="opacity">0.5</output>
+							<input type="range" id="opacity" name="opacity"
+								   class="input"
+	
+								   value="0.5"
+								   min="0" max="1" step="0.05">
+					   </form>
 					</li>
 					<li class="panel-item compare-mode__element">
-						<label for="scale">Scale:</label>
-						<input type="range" id="scale" name="scale"
+						<form name="scaleForm" oninput="rangevalue.value = scale.valueAsNumber">
+							<label for="scale">Scale:</label>
+							<output name="rangevalue" for="range">100</output>
+					  		<input type="range" id="scale" name="scale"
 							   class="input"
 							   value="100"
-							   min="0" max="100" step="1">
+							   min="0" max="200" step="1">
+						  
+						</form>		
+						
 					</li>
 					<li class="panel-item compare-mode__element">
 						<div class="move-btn-wrapper">
