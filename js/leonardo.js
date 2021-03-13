@@ -28,10 +28,19 @@ const plagiart = {
 		this.canvasOrig.height = this.canvasHeight;
 		this.canvasCopy.width = this.canvasWidth;
 		this.canvasCopy.height = this.canvasHeight;
-		this.moveUp = document.getElementById('Up');
-		this.moveLeft = document.getElementById('Left');
-		this.moveBottom = document.getElementById('Bottom');
-		this.moveRight = document.getElementById('Right');
+
+		// this.moveUp = document.getElementById('Up');
+		// this.moveLeft = document.getElementById('Left');
+		// this.moveBottom = document.getElementById('Bottom');
+		// this.moveRight = document.getElementById('Right');
+
+
+		this.moveUp = document.querySelectorAll('[data-id="Up"]');
+		this.moveLeft = document.querySelectorAll('[data-id="Left"]');
+		this.moveBottom = document.querySelectorAll('[data-id="Bottom"]');
+		this.moveRight = document.querySelectorAll('[data-id="Right"]');
+		this.mirror = document.querySelectorAll('[data-id="Mirror"]');
+
 		this.inputHeight = document.getElementById('canvasHeight');
 		this.inputWidth = document.getElementById('canvasWidth');
 		this.origImgHeight;
@@ -72,24 +81,39 @@ const plagiart = {
 			}
 		});
 		this.changeOpacity(this.canvasCopy);
-		this.changeScale(this.canvasCopy);
+		this.changeScale(this.canvasCopy, document.getElementById('scaleCopy'));
+		this.changeScale(this.canvasOrig, document.getElementById('scaleOrig'));
 		// this.trackMouse(this.canvasCopy);
 
-		this.moveUp.addEventListener('click', function () {
-			plagiart.moveCopy('up');
+		this.moveUp.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('up', button.getAttribute('data-target'));
+			});
+		})
+
+		this.moveLeft.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('left', button.getAttribute('data-target'));
+			});
+		})
+
+		this.moveBottom.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('bottom', button.getAttribute('data-target'));
+			});
+		})
+
+		this.moveRight.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('right', button.getAttribute('data-target'));
+			});
 		});
 
-		this.moveLeft.addEventListener('click', function () {
-			plagiart.moveCopy('left');
-		})
-
-		this.moveBottom.addEventListener('click', function () {
-			plagiart.moveCopy('bottom');
-		})
-
-		this.moveRight.addEventListener('click', function () {
-			plagiart.moveCopy('right');
-		})
+		this.mirror.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('mirror', button.getAttribute('data-target'));
+			});
+		});
 
 		this.inputHeight.addEventListener('keyup', function () {
 			plagiart.inputWidth.value = this.value  * plagiart.origImgWidth / plagiart.origImgHeight;
@@ -186,25 +210,30 @@ const plagiart = {
 
 	},
 
-	changeScale(canvasCopy) {
-		const scaleInput = document.getElementById('scale');
+	changeScale(canvas, scaleInput) {
 		scaleInput.value = 100;
-		this.canvasCopy.style.transform = `scale(${scaleInput.value/100})`;
+		canvas.style.transform = `scale(${scaleInput.value/100})`;
 		scaleInput.addEventListener('input', function(e) {
 			const newScale = e.target.value;
-			plagiart.canvasCopy.style.transform =`scale(${newScale/100})`;
+			canvas.style.transform =`scale(${newScale/100})`;
 		});
 
 	},
 
 	resizeCanvasToImg(canvas, image) {
+		const  ctx = canvas.getContext("2d");
+		ctx.fillStyle = 'white';
+		ctx.fillRect(0, 0, canvas.height, canvas.width);
 		canvas.width = image.width;
 		canvas.height = image.height;
 
 	},
 
-	moveCopy(direction) {
-		const copyWrapper = document.getElementById('copy-wrapper');
+	moveCopy(direction, target) {
+		let wrapper = document.getElementById('original-wrapper');
+		if (target === 'copy') {
+			wrapper = document.getElementById('copy-wrapper');
+		};
 		const step = 2;
 		switch (direction) {
 			case 'up':
@@ -219,22 +248,34 @@ const plagiart = {
 			case 'right':
 				moveCopy(step, 'data-horizontal');
 				break;
+			case 'mirror':
+				moveCopy(step, 'mirror');
+				break;
 		}
 
 		function moveCopy(step, dataDirection) {
-			let transformVProperty = (copyWrapper.getAttribute('data-vertical') === null) ? 0 : parseInt(copyWrapper.getAttribute('data-vertical'));
-			let transformHProperty = (copyWrapper.getAttribute('data-horizontal') === null) ? 0 : parseInt(copyWrapper.getAttribute('data-horizontal'));
+			let transformVProperty = (wrapper.getAttribute('data-vertical') === null) ? 0 : parseInt(wrapper.getAttribute('data-vertical'));
+			let transformHProperty = (wrapper.getAttribute('data-horizontal') === null) ? 0 : parseInt(wrapper.getAttribute('data-horizontal'));
+			let transform3DProperty = (wrapper.getAttribute('data-mirror') === null) ? 0 : parseInt(wrapper.getAttribute('data-mirror'));
 
-			if (dataDirection === 'data-horizontal') {
-				transformHProperty += step;
-				copyWrapper.setAttribute('data-horizontal', transformHProperty);
-			} else {
-				transformVProperty += step;
-				copyWrapper.setAttribute('data-vertical', transformVProperty);
+			switch (dataDirection) {
+				case 'data-horizontal':
+					transformHProperty += step;
+					wrapper.setAttribute('data-horizontal', transformHProperty);
+					break;
+				case 'data-vertical':
+					transformVProperty += step;
+					wrapper.setAttribute('data-vertical', transformVProperty);
+					break;
+				case 'mirror':
+					transform3DProperty = (transform3DProperty === 180 ? 0 : 180);
+					wrapper.setAttribute('data-mirror', transform3DProperty);
 			}
+
 			const shiftY = 'translateY(' + transformVProperty + 'px)';
 			const shiftX = 'translateX(' + transformHProperty + 'px)';
-			copyWrapper.style.transform = shiftX + ' ' + shiftY;
+			const shift3D = 'rotateY(' + transform3DProperty + 'deg)';
+			wrapper.style.transform = shiftX + ' ' + shiftY + ' ' + shift3D;
 		}
 	},
 
@@ -267,100 +308,132 @@ const plagiart = {
 					</div>
 				</div>
 				<!-- Right-side area with interface -->
-				<ul class="wrapper-inner panel-list controll-panel">
-					<li>
+				<div class="wrapper-inner controll-panel">
+					<div class="flex-full-width">
 						<button class="btn full-width-btn" id="sidebar-position">
 							Place sidebar left
 						</button>
-					</li>
-					<li class="panel-item">
-						<!-- <button id="originalPicture" class="buttons" type="button">Load the original picture</button> -->
-						<figure>
-							<img id="originalPicture" class="buttons" src="img/button-orig.jpg" alt="Press this button to load original picture">
-								<figcaption>Original picture</figcaption>
-						</figure>
-						<label for="original" class="input-label btn full-width-btn">
-							Upload image
-							<input type="file"
-								   id="original" name="original"
-								   placeholder="Original file"
-								   accept="image/png, image/jpeg">
-						</label>
-					</li>
-					<li class="panel-item compare-mode__element">
-						<figure>
-							<!-- <button id="artistsPicture" class="buttons" type="button">Load the your own picture</button> -->
-							<img id="artistsPicture" class="buttons" src="img/button-custom.jpg" alt="Press this button to load your picture">
-								<figcaption>Your picture</figcaption>
-						</figure>
-						<label for="clone" class="input-label btn full-width-btn">
-							Upload image
-							<input type="file"
-								   id="clone" name="clone"
-								   placeholder="Your file"
-								   accept="image/png, image/jpeg">
-						</label>
-					</li>
-					<li class="panel-item compare-mode__element">
-						<form name="scaleForm" oninput="opacityvalue.value = opacity.valueAsNumber">
-							<label for="opacity">Opacity:</label>
-							<output name="opacityvalue" for="opacity">0.5</output>
-							<input type="range" id="opacity" name="opacity"
-								   class="input"
-	
-								   value="0.5"
-								   min="0" max="1" step="0.05">
-					   </form>
-					</li>
-					<li class="panel-item compare-mode__element">
-						<form name="scaleForm" oninput="rangevalue.value = scale.valueAsNumber">
-							<label for="scale">Scale:</label>
-							<output name="rangevalue" for="range">100</output>
-					  		<input type="range" id="scale" name="scale"
-							   class="input"
-							   value="100"
-							   min="0" max="200" step="1">
-						  
-						</form>		
-						
-					</li>
-					<li class="panel-item compare-mode__element">
-						<div class="move-btn-wrapper">
-							<div class="move-btn-container">
-								<button class="btn move-btn" title="Up" id="Up"></button>
-								<button class="btn move-btn" title="Right" id="Right"></button>
-								<button class="btn move-btn" title="Left" id="Left"></button>
-								<button class="btn move-btn" title="Bottom" id="Bottom"></button>
-							</div>
-						</div>
-					</li>
-
-					<li class="panel-item scale-mode__element">
-						<label for="canvasWidth">
-							Enter canvas Width:
-							<input type="number"
-								   id="canvasWidth"
-								   data-input="height"
-								   class="sizeInput input" value="0"
-								   disabled>
-						</label>
-						<label for="canvasHeight">
-							Enter canvas Height:
-							<input type="number"
-								   id="canvasHeight"
-								   data-input="width"
-								   class="sizeInput input"
-								   value="0"
-								   disabled>
-						</label>
-					</li>
-					<li class="panel-item scale-mode__element">
-						<p>Point coordinates for new canvas:</p>
-						<p>By horisontal: <b id="remappedX"></b></p>
-						<p>By vertical: <b id="remappedY"></b></p>
-					</li>
-
-				</ul>
+					</div>
+					<ul  class="panel-list">
+						<li>
+							<ul class="panel-list-item">
+								<li class="panel-item">
+									<figure>
+										<img id="originalPicture" class="buttons" src="img/button-orig.jpg" alt="Press this button to load original picture">
+											<figcaption>Original picture</figcaption>
+									</figure>
+									<label for="original" class="input-label btn full-width-btn">
+										Upload image
+										<input type="file"
+											   id="original" name="original"
+											   placeholder="Original file"
+											   accept="image/png, image/jpeg">
+									</label>
+								</li>
+								<li class="panel-item scale-mode__element">
+									<label for="canvasWidth">
+										Enter canvas Width:
+										<input type="number"
+											   id="canvasWidth"
+											   data-input="height"
+											   class="sizeInput input" value="0"
+											   disabled>
+									</label>
+									<label for="canvasHeight">
+										Enter canvas Height:
+										<input type="number"
+											   id="canvasHeight"
+											   data-input="width"
+											   class="sizeInput input"
+											   value="0"
+											   disabled>
+									</label>
+								</li>
+								<li class="panel-item scale-mode__element">
+									<p>Point coordinates for new canvas:</p>
+									<p>By horisontal: <b id="remappedX"></b></p>
+									<p>By vertical: <b id="remappedY"></b></p>
+								</li>
+								<li class="panel-item compare-mode__element">
+									<form name="scaleForm" oninput="rangevalue.value = scale.valueAsNumber">
+										<label for="scaleOrig">Scale:</label>
+										<output name="rangevalue" for="range">100</output>
+										<input type="range" id="scaleOrig" name="scale" data-id="scale"
+										   class="input"
+										   value="100"
+										   min="0" max="200" step="1">
+									  
+									</form>		
+									
+								</li>
+								<li class="panel-item compare-mode__element">
+									<div class="move-btn-wrapper">
+										<div class="move-btn-container">
+											<button class="btn move-btn" title="Up" data-target="original"  data-id="Up"></button>
+											<button class="btn move-btn" title="Right" data-target="original"  data-id="Right"></button>
+											<button class="btn move-btn" title="Left" data-target="original"  data-id="Left"></button>
+											<button class="btn move-btn" title="Bottom" data-target="original"  data-id="Bottom"></button>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="compare-mode__element">
+							<ul class="panel-list-item ">
+								
+								<li class="panel-item">
+									<figure>
+										<!-- <button id="artistsPicture" class="buttons" type="button">Load the your own picture</button> -->
+										<img id="artistsPicture" class="buttons" src="img/button-custom.jpg" alt="Press this button to load your picture">
+											<figcaption>Your picture</figcaption>
+									</figure>
+									<label for="clone" class="input-label btn full-width-btn">
+										Upload image
+										<input type="file"
+											   id="clone" name="clone"
+											   placeholder="Your file"
+											   accept="image/png, image/jpeg">
+									</label>
+								</li>
+								<li class="panel-item compare-mode__element">
+									<form name="scaleForm" oninput="rangevalue.value = scale.valueAsNumber">
+										<label for="scaleCopy">Scale:</label>
+										<output name="rangevalue" for="range">100</output>
+										<input type="range" id="scaleCopy" name="scale" data-id="scale"
+										   class="input"
+										   value="100"
+										   min="0" max="200" step="1">
+									  
+									</form>		
+								</li>
+								<li class="panel-item compare-mode__element">
+									<div class="move-btn-wrapper">
+										<div class="move-btn-container">
+											<button class="btn move-btn" title="Up" data-target="copy" data-id="Up"></button>
+											<button class="btn move-btn" title="Right" data-target="copy" data-id="Right"></button>
+											<button class="btn move-btn" title="Left" data-target="copy" data-id="Left"></button>
+											<button class="btn move-btn" title="Bottom" data-target="copy" data-id="Bottom"></button>
+										</div>
+									</div>
+								</li>
+								<li class="panel-item">
+									<form name="scaleForm" oninput="opacityvalue.value = opacity.valueAsNumber">
+										<label for="opacity">Opacity:</label>
+										<output name="opacityvalue" for="opacity">0.5</output>
+										<input type="range" id="opacity" name="opacity"
+											   class="input"
+				
+											   value="0.5"
+											   min="0" max="1" step="0.05">
+								   </form>
+								</li>				
+								<li class="panel-item compare-mode__element">
+									<button class="btn" title="Mirror" data-target="copy" data-id="Mirror">Mirror</button>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</main>
 		<!-- End of main -->

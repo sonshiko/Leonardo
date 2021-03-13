@@ -40,8 +40,6 @@ header {
 }
 
 .controll-panel {
-	width: 20vw;
-	max-width: 200px;
 	flex-shrink: 1;
 	overflow: hidden;
 	flex-grow: 0;
@@ -160,10 +158,27 @@ footer {
 }
 
 .panel-list {
-	padding: 10px 20px;
 	list-style: none;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding: 0;
+	margin: 0;
+	height: calc( 100% - 88px );
 }
-
+.panel-list > li {
+	padding: 20px;
+}
+.panel-list > li:last-child {
+	border-left: 1px solid black;
+}
+.panel-list-item {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 20vw;
+	max-width: 200px;
+}
 .panel-item {
 	padding: 5px 0;
 }
@@ -217,16 +232,16 @@ textarea,
 	border-right: 0 ;
 	transform-origin: center;
 }
-#Up:before {
+[data-id="Up"]:before {
 	transform: rotate(-135deg);
 }
-#Right:before {
+[data-id="Right"]:before {
 	transform: rotate(-45deg);
 }
-#Bottom:before {
+[data-id="Bottom"]:before {
 	transform: rotate(45deg);
 }
-#Left:before {
+[data-id="Left"]:before {
 	transform: rotate(135deg);
 }
 .scale-mode .compare-mode__element {
@@ -285,4 +300,9 @@ input[type="radio"] {
 .label-radio.radio-inverted input + span:after {
 	right: inherit;
 	left: 0.5em;
+}
+
+.flex-full-width {
+	width: 100%;
+	padding: 20px;
 }
