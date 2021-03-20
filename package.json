@@ -19,5 +19,12 @@
   "dependencies": {
     "@codewell/get-canvas-mouse-position": "^1.0.0",
     "resize-canvas": "^1.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2"
   }
 }

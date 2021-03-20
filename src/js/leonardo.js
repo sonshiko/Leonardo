@@ -40,6 +40,8 @@ const plagiart = {
 		this.moveBottom = document.querySelectorAll('[data-id="Bottom"]');
 		this.moveRight = document.querySelectorAll('[data-id="Right"]');
 		this.mirror = document.querySelectorAll('[data-id="Mirror"]');
+		this.rotate90 = document.querySelectorAll('[data-id="Rotate90"]');
+		this.rotate = document.querySelectorAll('[data-id="Rotate"]');
 
 		this.inputHeight = document.getElementById('canvasHeight');
 		this.inputWidth = document.getElementById('canvasWidth');
@@ -112,6 +114,18 @@ const plagiart = {
 		this.mirror.forEach( function(button) {
 			button.addEventListener('click', function () {
 				plagiart.moveCopy('mirror', button.getAttribute('data-target'));
+			});
+		});
+
+		this.rotate90.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('rotate90', button.getAttribute('data-target'));
+			});
+		});
+
+		this.rotate.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('rotate', button.getAttribute('data-target'));
 			});
 		});
 
@@ -251,12 +265,19 @@ const plagiart = {
 			case 'mirror':
 				moveCopy(step, 'mirror');
 				break;
+			case 'rotate90':
+				moveCopy(step, 'rotate90');
+				break;
+			case 'rotate':
+				moveCopy(step, 'rotate');
+				break;
 		}
 
 		function moveCopy(step, dataDirection) {
 			let transformVProperty = (wrapper.getAttribute('data-vertical') === null) ? 0 : parseInt(wrapper.getAttribute('data-vertical'));
 			let transformHProperty = (wrapper.getAttribute('data-horizontal') === null) ? 0 : parseInt(wrapper.getAttribute('data-horizontal'));
 			let transform3DProperty = (wrapper.getAttribute('data-mirror') === null) ? 0 : parseInt(wrapper.getAttribute('data-mirror'));
+			let transform2DProperty = (wrapper.getAttribute('data-rotate') === null) ? 0 : parseInt(wrapper.getAttribute('data-rotate'));
 
 			switch (dataDirection) {
 				case 'data-horizontal':
@@ -270,12 +291,21 @@ const plagiart = {
 				case 'mirror':
 					transform3DProperty = (transform3DProperty === 180 ? 0 : 180);
 					wrapper.setAttribute('data-mirror', transform3DProperty);
+					break;
+				case 'rotate90':
+					transform2DProperty = transform2DProperty + 90;
+					wrapper.setAttribute('data-rotate', transform2DProperty);
+					break;
+				case 'rotate':
+					transform2DProperty = transform2DProperty + 1;
+					wrapper.setAttribute('data-rotate', transform2DProperty);
 			}
 
 			const shiftY = 'translateY(' + transformVProperty + 'px)';
 			const shiftX = 'translateX(' + transformHProperty + 'px)';
 			const shift3D = 'rotateY(' + transform3DProperty + 'deg)';
-			wrapper.style.transform = shiftX + ' ' + shiftY + ' ' + shift3D;
+			const shift2D = 'rotate(' + transform2DProperty + 'deg)';
+			wrapper.style.transform = shiftX + ' ' + shiftY + ' ' + shift3D + ' ' + shift2D;
 		}
 	},
 
@@ -376,8 +406,13 @@ const plagiart = {
 										</div>
 									</div>
 								</li>
+								<li>
+									<button class="btn" title="Rotate 90 clockwise" data-target="original" data-id="Rotate90">Rotate 90 clockwise</button>
+									<button class="btn" title="Rotate 1 clockwise" data-target="original"  data-id="Rotate">Rotate 1 clockwise</button>
+								</li>
 							</ul>
 						</li>
+						
 						<li class="compare-mode__element">
 							<ul class="panel-list-item ">
 								
@@ -415,6 +450,10 @@ const plagiart = {
 											<button class="btn move-btn" title="Bottom" data-target="copy" data-id="Bottom"></button>
 										</div>
 									</div>
+								</li>
+								<li>
+									<button class="btn" title="Rotate 90 clockwise" data-target="copy" data-id="Rotate90">Rotate 90 clockwise</button>
+									<button class="btn" title="Rotate 1 clockwise" data-target="copy"  data-id="Rotate">Rotate 1 clockwise</button>
 								</li>
 								<li class="panel-item">
 									<form name="scaleForm" oninput="opacityvalue.value = opacity.valueAsNumber">
