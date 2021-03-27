@@ -41,7 +41,9 @@ const plagiart = {
 		this.moveRight = document.querySelectorAll('[data-id="Right"]');
 		this.mirror = document.querySelectorAll('[data-id="Mirror"]');
 		this.rotate90 = document.querySelectorAll('[data-id="Rotate90"]');
-		this.rotate = document.querySelectorAll('[data-id="Rotate"]');
+		this.rotate1 = document.querySelectorAll('[data-id="Rotate1"]');
+		this.rotate_90 = document.querySelectorAll('[data-id="Rotate-90"]');
+		this.rotate_1 = document.querySelectorAll('[data-id="Rotate-1"]');
 
 		this.inputHeight = document.getElementById('canvasHeight');
 		this.inputWidth = document.getElementById('canvasWidth');
@@ -123,9 +125,21 @@ const plagiart = {
 			});
 		});
 
-		this.rotate.forEach( function(button) {
+		this.rotate1.forEach( function(button) {
 			button.addEventListener('click', function () {
-				plagiart.moveCopy('rotate', button.getAttribute('data-target'));
+				plagiart.moveCopy('rotate1', button.getAttribute('data-target'));
+			});
+		});
+
+		this.rotate_90.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('rotate-90', button.getAttribute('data-target'));
+			});
+		});
+
+		this.rotate_1.forEach( function(button) {
+			button.addEventListener('click', function () {
+				plagiart.moveCopy('rotate-1', button.getAttribute('data-target'));
 			});
 		});
 
@@ -268,8 +282,14 @@ const plagiart = {
 			case 'rotate90':
 				moveCopy(step, 'rotate90');
 				break;
-			case 'rotate':
-				moveCopy(step, 'rotate');
+			case 'rotate1':
+				moveCopy(step, 'rotate1');
+				break;
+			case 'rotate-90':
+				moveCopy(step, 'rotate-90');
+				break;
+			case 'rotate-1':
+				moveCopy(step, 'rotate-1');
 				break;
 		}
 
@@ -296,9 +316,18 @@ const plagiart = {
 					transform2DProperty = transform2DProperty + 90;
 					wrapper.setAttribute('data-rotate', transform2DProperty);
 					break;
-				case 'rotate':
+				case 'rotate1':
 					transform2DProperty = transform2DProperty + 1;
 					wrapper.setAttribute('data-rotate', transform2DProperty);
+					break;
+				case 'rotate-90':
+					transform2DProperty = transform2DProperty - 90;
+					wrapper.setAttribute('data-rotate', transform2DProperty);
+					break;
+				case 'rotate-1':
+					transform2DProperty = transform2DProperty - 1;
+					wrapper.setAttribute('data-rotate', transform2DProperty);
+					break;
 			}
 
 			const shiftY = 'translateY(' + transformVProperty + 'px)';
@@ -406,9 +435,11 @@ const plagiart = {
 										</div>
 									</div>
 								</li>
-								<li>
-									<button class="btn" title="Rotate 90 clockwise" data-target="original" data-id="Rotate90">Rotate 90 clockwise</button>
-									<button class="btn" title="Rotate 1 clockwise" data-target="original"  data-id="Rotate">Rotate 1 clockwise</button>
+								<li class="panel-item compare-mode__element">
+									<button class="btn" title="Rotate 90 clockwise" data-target="original" data-id="Rotate90">⭮</button>
+									<button class="btn" title="Rotate 90 counter-clockwise" data-target="original" data-id="Rotate-90">⭯</button>
+									<button class="btn" title="Rotate 1 clockwise" data-target="original"  data-id="Rotate1">⤸</button>
+									<button class="btn" title="Rotate 1 counter-clockwise" data-target="original"  data-id="Rotate-1">⤹</button>
 								</li>
 							</ul>
 						</li>
@@ -451,9 +482,11 @@ const plagiart = {
 										</div>
 									</div>
 								</li>
-								<li>
-									<button class="btn" title="Rotate 90 clockwise" data-target="copy" data-id="Rotate90">Rotate 90 clockwise</button>
-									<button class="btn" title="Rotate 1 clockwise" data-target="copy"  data-id="Rotate">Rotate 1 clockwise</button>
+								<li class="panel-item compare-mode__element">
+									<button class="btn" title="Rotate 90 clockwise" data-target="copy" data-id="Rotate90">⭮</button>
+									<button class="btn" title="Rotate 90 counter-clockwise" data-target="copy" data-id="Rotate-90">⭯</button>
+									<button class="btn" title="Rotate 1 clockwise" data-target="copy"  data-id="Rotate1">⤸</button>
+									<button class="btn" title="Rotate 1 counter-clockwise" data-target="copy"  data-id="Rotate-1">⤹</button>
 								</li>
 								<li class="panel-item">
 									<form name="scaleForm" oninput="opacityvalue.value = opacity.valueAsNumber">
