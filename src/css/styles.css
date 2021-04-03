@@ -13,6 +13,8 @@ header {
 	height: 7vh;
 	min-height: 20px;
 	background-image: url('../../img/header.jpg');
+	display: flex;
+	justify-content: space-between;
 }
 
 .wrapper {	
@@ -251,12 +253,18 @@ textarea,
 	display: none;
 }
 
+
 .header-controls {
 	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+}
+
+.header-controls-small {
+	width: 25%;
+	text-align: right;
 }
 
 .label-radio {
@@ -305,4 +313,65 @@ input[type="radio"] {
 .flex-full-width {
 	width: 100%;
 	padding: 20px;
+}
+
+.icon-btn {
+	padding: 0.1em;
+}
+
+.icon {
+	height: 3em;
+	width: 3em;
+}
+
+.text-center {
+	text-align: center;
+}
+
+/*languages*/
+
+
+.language-radio {
+	font-size: 1.2rem;
+	position: relative;
+	padding: 0 1em;
+	vertical-align: middle;
+	margin: 0 10px;
+}
+.language-radio input + span:before{
+	position: absolute;
+	content: '';
+	display: inline-block;
+	vertical-align: inherit;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 20px;
+	width: 40px;
+	background-size: auto 20px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.language-radio input#uk + span:before {
+	background-size: 38px 24px;
+	background-image: url("../../img/ua_flag.jpg");
+}
+.language-radio input#en + span:before {
+	background-size: 32px 24px;
+	background-image: url("../../img/canada_flag.jpg");
+}
+.language-radio input#uk:checked + span:before {
+	background-size: 40px 29px;
+	background-image: url("../../img/ukraine.gif");
+}
+.language-radio input#en:checked + span:before {
+	background-size: 40px 29px;
+	background-image: url("../../img/canada.gif");
+}
+
+.left .inner-left {
+	display: none;
+}
+
+.right .inner-right {
+	display: none;
 }

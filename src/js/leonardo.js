@@ -11,6 +11,17 @@
 // 	size: [100, 50] // absolute size adjustment
 // })
 
+const languagesSet = JSON.parse(`{
+  "place_sidebar_left": {
+    "en": "Place Sidebar Left",
+    "uk": "Перемістити ліворуч"
+  },
+  "place_sidebar_right": {
+    "en": "Place Sidebar Right",
+    "uk": "Перемістити праворуч"
+  }
+}`);
+
 const plagiart = {
 
 
@@ -175,6 +186,8 @@ const plagiart = {
 			document.getElementById('remappedY').innerText = newCoords.y;
 		})
 		this.mode = 'scale';
+		this.language = 'uk';
+		this.translate();
 		const wrapper = document.getElementById('plagiartWrapper');
 		wrapper.classList.add('scale-mode');
 		this.modeInputs = document.getElementsByClassName('mode');
@@ -193,6 +206,30 @@ const plagiart = {
 				console.log('mode ', plagiart.mode);
 			})
 		}
+
+		this.languageInputs = document.getElementsByClassName('language');
+		for( let i =0; i< this.languageInputs.length; i++) {
+			this.languageInputs[i].addEventListener('change', function(event) {
+				if (plagiart.language === 'uk') {
+					plagiart.language = 'en';
+				} else {
+					plagiart.language = 'uk';
+				}
+				plagiart.translate();
+			})
+		}
+
+		// this.loadJson();
+	},
+
+	translate() {
+		const language = this.language;
+		const langSet = languagesSet;
+		const elementsToTranslate = document.querySelectorAll('[data-translate]');
+		elementsToTranslate.forEach( element => {
+			const translationKey = element.getAttribute('data-translate');
+			element.innerHTML = langSet[translationKey][language];
+		});
 	},
 
 	readFile(imgType, imgSource, targetFile) {
@@ -217,10 +254,12 @@ const plagiart = {
 		switchSidebarBtn.addEventListener('click', function() {
 			if (sidebarPosition === 'right') {
 				sidebarPosition = 'left';
-				document.getElementById('sidebar-position').innerHTML = "Place sidebar right";
+				document.getElementById('sidebar-position').classList.remove('right');
+				document.getElementById('sidebar-position').classList.add('left');
 			} else {
 				sidebarPosition = 'right';
-				document.getElementById('sidebar-position').innerHTML = "Place sidebar left";
+				document.getElementById('sidebar-position').classList.remove('left');
+				document.getElementById('sidebar-position').classList.add('right');
 			}
 			documentWrapper.classList.toggle('wrapper-reverse');
 		})
@@ -338,16 +377,45 @@ const plagiart = {
 		}
 	},
 
+	// loadJson() {
+	// 	function readTextFile(file, callback) {
+	// 		var rawFile = new XMLHttpRequest();
+	// 		rawFile.overrideMimeType("application/json");
+	// 		rawFile.open("GET", file, true);
+	// 		rawFile.onreadystatechange = function() {
+	// 			if (rawFile.readyState === 4 && rawFile.status == "200") {
+	// 				callback(rawFile.responseText);
+	// 			}
+	// 		}
+	// 		rawFile.send(null);
+	// 	}
+	//
+	// 	readTextFile("src/transliterate.json", function(text){
+	// 		var data = JSON.parse(text);
+	// 		console.log(data);
+	// 	});
+	// },
+
 	createHtml(wrapperid) {
 		const content =`
 			<!-- Begin of header -->
 			<header class="header">
+				<div class="header-controls header-controls-small">
+				</div>
 				<div class="header-controls">
 					<label class="label-radio">
 						<input type="radio" id="scaleMode" class="mode input-radio" name="mode" checked><span>Scale mode</span>
 					</label>
 					<label class="label-radio radio-inverted">
 						<input type="radio" id="compareMode" name="mode" class="mode input-radio"><span>Compare mode</span>
+					</label>
+				</div>
+				<div class="header-controls header-controls-small">
+					<label class="language-radio">
+						<input type="radio" id="uk" class="language input-radio" name="language" checked><span></span>
+					</label>
+					<label class="language-radio">
+						<input type="radio" id="en" name="language" class="language input-radio"><span></span>
 					</label>
 				</div>
 			</header>
@@ -369,8 +437,9 @@ const plagiart = {
 				<!-- Right-side area with interface -->
 				<div class="wrapper-inner controll-panel">
 					<div class="flex-full-width">
-						<button class="btn full-width-btn" id="sidebar-position">
-							Place sidebar left
+						<button class="btn full-width-btn right" id="sidebar-position">
+						<span class="inner-left" data-translate="place_sidebar_left"></span>
+						<span class="inner-right" data-translate="place_sidebar_right"></span>
 						</button>
 					</div>
 					<ul  class="panel-list">
@@ -435,11 +504,27 @@ const plagiart = {
 										</div>
 									</div>
 								</li>
-								<li class="panel-item compare-mode__element">
-									<button class="btn" title="Rotate 90 clockwise" data-target="original" data-id="Rotate90">⭮</button>
-									<button class="btn" title="Rotate 90 counter-clockwise" data-target="original" data-id="Rotate-90">⭯</button>
-									<button class="btn" title="Rotate 1 clockwise" data-target="original"  data-id="Rotate1">⤸</button>
-									<button class="btn" title="Rotate 1 counter-clockwise" data-target="original"  data-id="Rotate-1">⤹</button>
+								<li class="panel-item compare-mode__element text-center">
+									<button class="btn icon-btn" title="Rotate 90 clockwise" data-target="original" data-id="Rotate90">
+										<svg class="icon">
+										  <use xlink:href="#rotate-right-90"></use>
+										</svg>
+									</button>
+									<button class="btn icon-btn" title="Rotate 90 counter-clockwise" data-target="original" data-id="Rotate-90">
+										<svg class="icon">
+										  <use xlink:href="#rotate-left-90"></use>
+										</svg>
+									</button>
+									<button class="btn icon-btn" title="Rotate 1 clockwise" data-target="original"  data-id="Rotate1">
+										<svg class="icon">
+										  <use xlink:href="#rotate-right"></use>
+										</svg>
+									</button>
+									<button class="btn icon-btn" title="Rotate 1 counter-clockwise" data-target="original"  data-id="Rotate-1">
+										<svg class="icon">
+										  <use xlink:href="#rotate-left"></use>
+										</svg>
+									</button>
 								</li>
 							</ul>
 						</li>
@@ -482,11 +567,27 @@ const plagiart = {
 										</div>
 									</div>
 								</li>
-								<li class="panel-item compare-mode__element">
-									<button class="btn" title="Rotate 90 clockwise" data-target="copy" data-id="Rotate90">⭮</button>
-									<button class="btn" title="Rotate 90 counter-clockwise" data-target="copy" data-id="Rotate-90">⭯</button>
-									<button class="btn" title="Rotate 1 clockwise" data-target="copy"  data-id="Rotate1">⤸</button>
-									<button class="btn" title="Rotate 1 counter-clockwise" data-target="copy"  data-id="Rotate-1">⤹</button>
+								<li class="panel-item compare-mode__element text-center">
+									<button class="btn icon-btn" title="Rotate 90 clockwise" data-target="copy" data-id="Rotate90">
+										<svg class="icon">
+										  <use xlink:href="#rotate-right-90"></use>
+										</svg>
+									</button>
+									<button class="btn icon-btn" title="Rotate 90 counter-clockwise" data-target="copy" data-id="Rotate-90">
+										<svg class="icon">
+										  <use xlink:href="#rotate-left-90"></use>
+										</svg>
+									</button>
+									<button class="btn icon-btn" title="Rotate 1 clockwise" data-target="copy"  data-id="Rotate1">
+										<svg class="icon">
+										  <use xlink:href="#rotate-right"></use>
+										</svg>
+									</button>
+									<button class="btn icon-btn" title="Rotate 1 counter-clockwise" data-target="copy"  data-id="Rotate-1">
+										<svg class="icon">
+										  <use xlink:href="#rotate-left"></use>
+										</svg>
+									</button>
 								</li>
 								<li class="panel-item">
 									<form name="scaleForm" oninput="opacityvalue.value = opacity.valueAsNumber">
