@@ -352,7 +352,7 @@ input[type="radio"] {
 	background-position: center;
 }
 .language-radio input#uk + span:before {
-	background-size: 38px 24px;
+	background-size: 32px 24px;
 	background-image: url("../../img/ua_flag.jpg");
 }
 .language-radio input#en + span:before {
