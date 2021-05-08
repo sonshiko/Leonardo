@@ -12,9 +12,17 @@ body {
 header {
 	height: 7vh;
 	min-height: 20px;
-	background-image: url('../../img/header.jpg');
 	display: flex;
 	justify-content: space-between;
+}
+
+footer {
+	height: 7vh;
+	min-height: 20px;
+}
+
+header, footer {
+	background-image: url('../../img/header.jpg');
 }
 
 .wrapper {	
@@ -75,12 +83,6 @@ figcaption {
 
 #artistsPicture {
 
-}
-
-footer {
-	height: 7vh;
-	min-height: 20px;
-	background-image: url('../../img/header.jpg');
 }
 
 .btn {
