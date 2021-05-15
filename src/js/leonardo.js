@@ -1,118 +1,59 @@
-/*function setHeight() {	
-	divHeight = window.innerHeight;	
-	document.getElementById("main-container").style.height = divHeight + 'px';
-}*/
-
-// import getCanvasMousePosition from '@codewell/get-canvas-mouse-position';
-// import resizeCanvas from 'resize-canvas';
-//
-// resizeCanvas({
-// 	canvas: canvas,
-// 	size: [100, 50] // absolute size adjustment
-// })
-
-const languagesSet = JSON.parse(`
-{
-  "place_sidebar_left": {
-    "en": "Place Sidebar Left",
-    "uk": "Перемістити ліворуч"
-  },
-  "place_sidebar_right": {
-    "en": "Place Sidebar Right",
-    "uk": "Перемістити праворуч"
-  },
-  "scale_mode": {
-  	"en": "Scale Mode",
-  	"uk": "Масштабування"
-  },
-  "compare_mode": {
-  	"en": "Compare Mode",
-  	"uk": "Порівняння"
-  },
-  "original_picture": {
-  	"en": "Original Picture",
-  	"uk": "Оригінальна картина"
-  },
-  "your_picture": {
-  	"en": "Your Picture",
-  	"uk": "Ваша картина"
-  },
-  "upload_image": {
-  	"en": "Upload Image",
-  	"uk": "Завантажте зображення"
-  },
-  "canvas_width": {
-  	"en": "Enter canvas Width:",
-  	"uk": "Вкажіть ширину полотна:"
-  },
-  "canvas_height": {
-  	"en": "Enter canvas Height:",
-  	"uk": "Вкажіть висоту полотна:"
-  },
-  "point_coords": {
-  	"en": "Coordinates of a point for chosen canvas:",
-  	"uk": "Координати точки на обраному полотні:"
-  },
-  "by_horizontal": {
-  	"en": "By horizontal:",
-  	"uk": "По горизонталі:"
-  },
-  "by_vertical": {
-  	"en": "By vertical:",
-  	"uk": "По вертикалі:"
-  },
-  "scale": {
-  	"en": "Scale:",
-  	"uk": "Масштаб:"
-  },
-  "transparency": {
-  	"en": "Transparency:",
-  	"uk": "Прозорість:"
-  },
-  "mirror": {
-  	"en": "Flip Horizontally",
-  	"uk": "Відобразити дзеркально" 
-  },
-  "up": {
-  	"en": "Up",
-  	"uk": "Вгору"
-  },
-  "bottom": {
-  	"en": "Bottom",
-  	"uk": "Вниз"
-  },
-  "left": {
-  	"en": "Left",
-  	"uk": "Ліворуч"
-  },
-  "right": {
-  	"en": "Right",
-  	"uk": "Праворуч"
-  },
-  "clockwise_90": {
-  	"en": "Rotate 90° clockwise",
-	"uk": "Повернути на 90°"
-  },
-  "counterclockwise_90": {
-  	"en": "Rotate 90° counterclockwise",
-  	"uk": "Повернути на 90° проти годинникової стрілки"
-  },
-  "clockwise": {
-  	"en": "Rotate 1° clockwise",
-	"uk": "Повернути на 1°"
-  },
-  "counterclockwise": {
-  	"en": "Rotate 1° counterclockwise",
-  	"uk": "Повернути на 1° проти годинникової стрілки"
-  }
+function showModal(modalId) {
+	const currentModal = document.getElementById(modalId);
+	currentModal.classList.add('visible');
+	const wrapperToBlur = document.getElementById('plagiartWrapper');
+	wrapperToBlur.classList.add('blur');
+	const reloadButton = document.getElementById('reload');
+	reloadButton.addEventListener('click', function () {
+		window.location.reload();
+	})
 }
-`);
+
 
 const plagiart = {
 
 
 	init(wrapperId) {
-		window.onload = this.main(wrapperId);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', './src/transliterate.json', true);
+		xhr.responseType = 'json';
+		xhr.onload = function() {
+			setLanguagesAndStart(xhr.status,  xhr.response)
+		};
+		xhr.send();
+
+		function setLanguagesAndStart(status, response) {
+			if (status === 200) {
+				plagiart.languagesSet = response;
+			} else {
+				showModal('modal');
+				console.log(status);
+				// todo show modal and reload button
+			}
+			window.onload = plagiart.main(wrapperId);
+		}
+
+		// fetch('./src/transliterate.json', {method: 'GET'})
+		// 	.then(
+		// 		function(response) {
+		// 			const status = response.status;
+		// 			if (status !== 200) {
+		// 				console.log('Looks like there was a problem. Status Code: ' +
+		// 					status);
+		// 				return;
+		// 			}
+		// 			debugger;
+		// 			// Examine the text in the response
+		// 			response.json().then(function(response) {
+		// 				setLanguagesAndStart(status, response);
+		// 			});
+		// 		}
+		// 	)
+		// 	.catch(function(err) {
+		// 		console.log('Fetch Error :-S', err);
+		// 	});
+
 	},
 
 	main(wrapperid) {
@@ -144,12 +85,10 @@ const plagiart = {
 
 		this.inputHeight = document.getElementById('canvasHeight');
 		this.inputWidth = document.getElementById('canvasWidth');
-		this.origImgHeight;
-		this.origImgWidth;
-		var ctxOrig = this.canvasOrig.getContext("2d");
-		var ctxCopy = this.canvasCopy.getContext("2d");
+		let ctxOrig = this.canvasOrig.getContext("2d");
+		let ctxCopy = this.canvasCopy.getContext("2d");
 
-		var imageOrig = new Image();
+		let imageOrig = new Image();
 		imageOrig.onload = function() {
 			plagiart.resizeCanvasToImg(plagiart.canvasOrig, imageOrig);
 			plagiart.origImgHeight = imageOrig.height;
@@ -160,7 +99,7 @@ const plagiart = {
 			plagiart.inputWidth.value = 0;
 			ctxOrig.drawImage(imageOrig, 0, 0);
 		};
-		var imageCopy = new Image();
+		let imageCopy = new Image();
 		imageCopy.onload = function() {
 			plagiart.resizeCanvasToImg(plagiart.canvasCopy, imageCopy);
 			ctxCopy.drawImage(imageCopy, 0, 0);
@@ -279,7 +218,6 @@ const plagiart = {
 		this.modeInputs = document.getElementsByClassName('mode');
 		for( let i =0; i< this.modeInputs.length; i++) {
 			this.modeInputs[i].addEventListener('change', function(event) {
-				console.log('mode ', plagiart.mode);
 				if (plagiart.mode === 'scale') {
 					plagiart.mode = 'compare';
 					wrapper.classList.remove('scale-mode');
@@ -289,7 +227,6 @@ const plagiart = {
 					wrapper.classList.remove('compare-mode');
 					wrapper.classList.add('scale-mode');
 				}
-				console.log('mode ', plagiart.mode);
 			})
 		}
 
@@ -310,7 +247,7 @@ const plagiart = {
 
 	translate() {
 		const language = this.language;
-		const langSet = languagesSet;
+		const langSet = this.languagesSet;
 		// inner text translation
 		const elementsToTranslate = document.querySelectorAll('[data-translate]');
 		elementsToTranslate.forEach( element => {
@@ -470,25 +407,6 @@ const plagiart = {
 			wrapper.style.transform = shiftX + ' ' + shiftY + ' ' + shift3D + ' ' + shift2D;
 		}
 	},
-
-	// loadJson() {
-	// 	function readTextFile(file, callback) {
-	// 		var rawFile = new XMLHttpRequest();
-	// 		rawFile.overrideMimeType("application/json");
-	// 		rawFile.open("GET", file, true);
-	// 		rawFile.onreadystatechange = function() {
-	// 			if (rawFile.readyState === 4 && rawFile.status == "200") {
-	// 				callback(rawFile.responseText);
-	// 			}
-	// 		}
-	// 		rawFile.send(null);
-	// 	}
-	//
-	// 	readTextFile("src/transliterate.json", function(text){
-	// 		var data = JSON.parse(text);
-	// 		console.log(data);
-	// 	});
-	// },
 
 	createHtml(wrapperid) {
 		const content =`
