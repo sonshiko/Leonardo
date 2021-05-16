@@ -29,7 +29,6 @@ const plagiart = {
 			} else {
 				showModal('modal');
 				console.log(status);
-				// todo show modal and reload button
 			}
 			window.onload = plagiart.main(wrapperId);
 		}
@@ -66,13 +65,6 @@ const plagiart = {
 		this.canvasOrig.height = this.canvasHeight;
 		this.canvasCopy.width = this.canvasWidth;
 		this.canvasCopy.height = this.canvasHeight;
-
-		// this.moveUp = document.getElementById('Up');
-		// this.moveLeft = document.getElementById('Left');
-		// this.moveBottom = document.getElementById('Bottom');
-		// this.moveRight = document.getElementById('Right');
-
-
 		this.moveUp = document.querySelectorAll('[data-id="Up"]');
 		this.moveLeft = document.querySelectorAll('[data-id="Left"]');
 		this.moveBottom = document.querySelectorAll('[data-id="Bottom"]');
@@ -123,7 +115,6 @@ const plagiart = {
 		this.changeOpacity(this.canvasCopy);
 		this.changeScale(this.canvasCopy, document.getElementById('scaleCopy'));
 		this.changeScale(this.canvasOrig, document.getElementById('scaleOrig'));
-		// this.trackMouse(this.canvasCopy);
 
 		this.moveUp.forEach( function(button) {
 			button.addEventListener('click', function () {
@@ -241,8 +232,6 @@ const plagiart = {
 				plagiart.translate();
 			})
 		}
-
-		// this.loadJson();
 	},
 
 	translate() {
