@@ -14,11 +14,19 @@
 <!-- <body onload="setHeight()" onresize="setHeight()"> -->
 <body>
 
-	<div id="plagiartWrapper"></div>
+<!--	<div id="plagiartWrapper"></div>-->
+
+	<div id="plagiartWrapper" class="scale-mode">
+
+		<plagiart></plagiart>
+	</div>
 	<div class="modal" id="modal">
 		<h3>Something is went wrong. Click "OK" to reload page.</h3>
-		<button class="btn" id="reload">Ok</button>
-	</div>
+	<button class="btn" id="reload">Ok</button>
+</div>
 </body>
-<script type="module" src="src/js/leonardo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="src/js/vue.js"></script>
+<script src="src/js/plagiart-header.js"></script>
+<!--<script src="src/js/leonardo.js"></script>-->
 </html>
