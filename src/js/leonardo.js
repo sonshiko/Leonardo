@@ -357,7 +357,8 @@ const plagiart = {
 			let transformHProperty = (wrapper.getAttribute('data-horizontal') === null) ? 0 : parseInt(wrapper.getAttribute('data-horizontal'));
 			let transform3DProperty = (wrapper.getAttribute('data-mirror') === null) ? 0 : parseInt(wrapper.getAttribute('data-mirror'));
 			let transform2DProperty = (wrapper.getAttribute('data-rotate') === null) ? 0 : parseInt(wrapper.getAttribute('data-rotate'));
-
+			//
+			const imgRotationState = transform3DProperty === 0 ? 1 : -1;
 			switch (dataDirection) {
 				case 'data-horizontal':
 					transformHProperty += step;
@@ -372,19 +373,19 @@ const plagiart = {
 					wrapper.setAttribute('data-mirror', transform3DProperty);
 					break;
 				case 'rotate90':
-					transform2DProperty = transform2DProperty + 90;
+					transform2DProperty = transform2DProperty + 90 * imgRotationState;
 					wrapper.setAttribute('data-rotate', transform2DProperty);
 					break;
 				case 'rotate1':
-					transform2DProperty = transform2DProperty + 1;
+					transform2DProperty = transform2DProperty + 1 * imgRotationState;
 					wrapper.setAttribute('data-rotate', transform2DProperty);
 					break;
 				case 'rotate-90':
-					transform2DProperty = transform2DProperty - 90;
+					transform2DProperty = transform2DProperty - 90 * imgRotationState;
 					wrapper.setAttribute('data-rotate', transform2DProperty);
 					break;
 				case 'rotate-1':
-					transform2DProperty = transform2DProperty - 1;
+					transform2DProperty = transform2DProperty - 1 * imgRotationState;
 					wrapper.setAttribute('data-rotate', transform2DProperty);
 					break;
 			}
