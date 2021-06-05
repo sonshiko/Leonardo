@@ -4,17 +4,21 @@
 	<title>plagia®t</title>
 	<meta charset="UTF-8">
 	<!-- include a file with css to this document -->
-	<link rel="stylesheet" type="text/css" href="dist/normalize.css">
-	<link rel="stylesheet" type="text/css" href="dist/style-box-sizing.css">
-	<link rel="stylesheet" type="text/css" href="dist/styles.css">
+	<link rel="stylesheet" type="text/css" href="src/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="src/css/style-box-sizing.css">
+	<link rel="stylesheet" type="text/css" href="src/css/styles.css">
 	<!-- include a file with js to this document -->
+	<link rel="manifest" href="manifest.json" />
 
 </head>
 <!-- <body onload="setHeight()" onresize="setHeight()"> -->
 <body>
 
 	<div id="plagiartWrapper"></div>
-
+	<div class="modal" id="modal">
+		<h3>Something is went wrong. Click "OK" to reload page.</h3>
+		<button class="btn" id="reload">Ok</button>
+	</div>
 </body>
-<script type="module" src="dist/leonardo.min.js"></script>
+<script type="module" src="src/js/leonardo.js"></script>
 </html>

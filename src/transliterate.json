@@ -1,0 +1,94 @@
+{
+  "place_sidebar_left": {
+    "en": "Place Sidebar Left",
+    "uk": "Перемістити ліворуч"
+  },
+  "place_sidebar_right": {
+    "en": "Place Sidebar Right",
+    "uk": "Перемістити праворуч"
+  },
+  "scale_mode": {
+    "en": "Scale Mode",
+    "uk": "Масштабування"
+  },
+  "compare_mode": {
+    "en": "Compare Mode",
+    "uk": "Порівняння"
+  },
+  "original_picture": {
+    "en": "Original Picture",
+    "uk": "Оригінальна картина"
+  },
+  "your_picture": {
+    "en": "Your Picture",
+    "uk": "Ваша картина"
+  },
+  "upload_image": {
+    "en": "Upload Image",
+    "uk": "Завантажте зображення"
+  },
+  "canvas_width": {
+    "en": "Enter canvas Width:",
+    "uk": "Вкажіть ширину полотна:"
+  },
+  "canvas_height": {
+    "en": "Enter canvas Height:",
+    "uk": "Вкажіть висоту полотна:"
+  },
+  "point_coords": {
+    "en": "Coordinates of a point for chosen canvas:",
+    "uk": "Координати точки на обраному полотні:"
+  },
+  "by_horizontal": {
+    "en": "By horizontal:",
+    "uk": "По горизонталі:"
+  },
+  "by_vertical": {
+    "en": "By vertical:",
+    "uk": "По вертикалі:"
+  },
+  "scale": {
+    "en": "Scale:",
+    "uk": "Масштаб:"
+  },
+  "transparency": {
+    "en": "Transparency:",
+    "uk": "Прозорість:"
+  },
+  "mirror": {
+    "en": "Flip Horizontally",
+    "uk": "Відобразити дзеркально"
+  },
+  "up": {
+    "en": "Up",
+    "uk": "Вгору"
+  },
+  "bottom": {
+    "en": "Bottom",
+    "uk": "Вниз"
+  },
+  "left": {
+    "en": "Left",
+    "uk": "Ліворуч"
+  },
+  "right": {
+    "en": "Right",
+    "uk": "Праворуч"
+  },
+  "clockwise_90": {
+    "en": "Rotate 90° clockwise",
+    "uk": "Повернути на 90°"
+  },
+  "counterclockwise_90": {
+    "en": "Rotate 90° counterclockwise",
+    "uk": "Повернути на 90° проти годинникової стрілки"
+  },
+  "clockwise": {
+    "en": "Rotate 1° clockwise",
+    "uk": "Повернути на 1°"
+  },
+  "counterclockwise": {
+    "en": "Rotate 1° counterclockwise",
+    "uk": "Повернути на 1° проти годинникової стрілки"
+  }
+}
