@@ -27,7 +27,7 @@ footer {
 }
 
 header, footer {
-	background-image: url('../../img/header.jpg');
+	background-image: url('../img/header.jpg');
 }
 
 .wrapper {	
@@ -360,19 +360,19 @@ input[type="radio"] {
 }
 .language-radio input#uk + span:before {
 	background-size: 32px 24px;
-	background-image: url("../../img/ua_flag.jpg");
+	background-image: url("../img/ua_flag.jpg");
 }
 .language-radio input#en + span:before {
 	background-size: 32px 24px;
-	background-image: url("../../img/canada_flag.jpg");
+	background-image: url("../img/canada_flag.jpg");
 }
 .language-radio input#uk:checked + span:before {
 	background-size: 40px 29px;
-	background-image: url("../../img/ukraine.gif");
+	background-image: url("../img/ukraine.gif");
 }
 .language-radio input#en:checked + span:before {
 	background-size: 40px 29px;
-	background-image: url("../../img/canada.gif");
+	background-image: url("../img/canada.gif");
 }
 
 .left .inner-left {
