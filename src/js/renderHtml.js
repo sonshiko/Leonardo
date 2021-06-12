@@ -2,9 +2,12 @@ function renderHtml (wrapperid) {
 
     const headerContent =`
 			<!-- Begin of header -->
-			<!-- svg sprite -->
-			<svg display="none">
-				<symbol id="rotate-left-90" class="svg-icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+			
+		<!-- End of header -->
+		`;
+    const svgContent = `
+            <svg display="none">
+                <symbol id="rotate-left-90" class="svg-icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
 				 viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
 					<path d="M510.9 127.6c-120.1 0-233.2 56.7-305.3 151.3-13.6 17.9-5 43.9 16.6 50.1 2.9 0.8 5.9 1.3 8.9 1.3 9.8 0 19.3-4.5 25.4-12.6 60.1-78.8 154.4-126.1 254.4-126.1 28.5 0 57.4 3.8 86.1 11.9C767.8 251.1 867 427 819.4 597.7c-39.5 141.7-168.2 234.1-308.1 234.1-29.3 0-59.2-4.1-88.8-12.6-130.3-37.5-218.2-150.6-230.1-277.9-1.2-13-10.4-24-23-27.6-3-0.9-6-1.3-9-1.3-18.1 0-33.6 15.6-31.8 34.9C142.9 700 248.5 835.7 404.8 880.7c35.5 10.2 71.3 15.1 106.5 15.1 167 0 320.7-109.8 369-278.5 58.4-204-60.9-417.8-265.2-475.3-34.7-9.7-69.7-14.4-104.2-14.4z"/>
 					<path d="M204.1 162.5h-32v160c0 17.7 14.3 32 32 32h159v-32c0-17.7-14.3-32-32-32h-95v-96c0-17.7-14.3-32-32-32z" />
@@ -26,43 +29,14 @@ function renderHtml (wrapperid) {
 					<path d="M512.7 127.6c-34.4 0-69.4 4.7-104.2 14.4C204.3 199.6 85 413.3 143.3 617.3c48.3 168.7 202 278.5 369 278.5 35.2 0 71-4.9 106.5-15.1C775.1 835.7 880.7 700 895 547.3c1.8-19.3-13.7-34.9-31.8-34.9-2.9 0-5.9 0.4-8.9 1.3-12.6 3.6-21.8 14.6-23 27.6-11.8 127.3-99.8 240.4-230.1 277.9-29.6 8.5-59.4 12.6-88.8 12.6-139.8 0-268.5-92.4-308.1-234.1-47.6-170.7 51.6-346.6 222.3-394.2 28.7-8 57.7-11.9 86.1-11.9 100 0 194.4 47.3 254.4 126.1 6.2 8.1 15.6 12.6 25.4 12.6 2.9 0 5.9-0.4 8.9-1.3 21.6-6.2 30.3-32.2 16.6-50.1-72-94.5-185.2-151.3-305.3-151.3z"/>
 					<path d="M851.5 162.5h-32c-17.7 0-32 14.3-32 32v96h-95c-17.7 0-32 14.3-32 32v32h159c17.7 0 32-14.3 32-32v-160z" />
 				</symbol>
-			</svg>
-            <div class="header-controls header-controls-small">
-            </div>
-            <div class="header-controls">
-                <label class="label-radio">
-                    <input type="radio" id="scaleMode" class="mode input-radio" name="mode" checked><span data-translate="scale_mode">Scale mode</span>
-                </label>
-                <label class="label-radio radio-inverted">
-                    <input type="radio" id="compareMode" name="mode" class="mode input-radio"><span data-translate="compare_mode"></span>
-                </label>
-            </div>
-            <div class="header-controls header-controls-small">
-                <label class="language-radio">
-                    <input type="radio" id="uk" class="language input-radio" name="language" checked><span></span>
-                </label>
-                <label class="language-radio">
-                    <input type="radio" id="en" name="language" class="language input-radio"><span></span>
-                </label>
-            </div>
-		<!-- End of header -->
-		`;
+            </svg>
+    `;
     const mainContent = `
 		<!-- Main -->
 			<!-- -->
-			<div id="main-container" class="wrapper">
-				<!-- The area to load pictures -->
-				<div class="img-holder wrapper-inner">
-					<div class="canvas-wrapper" id="original-wrapper">
-						<canvas id="original-image" class="original-image"></canvas>
-					</div>
-					<div class="canvas-wrapper compare-mode__element" id="copy-wrapper">
-						<canvas id="copy-image"
-								class="copy-image"></canvas>
-					</div>
-				</div>
+
 				<!-- Right-side area with interface -->
-				<div class="wrapper-inner controll-panel">
+<!--				<div class="wrapper-inner controll-panel">-->
 					<div class="flex-full-width">
 						<button class="btn full-width-btn right" id="sidebar-position">
 						<span class="inner-left" data-translate="place_sidebar_left"></span>
@@ -233,33 +207,90 @@ function renderHtml (wrapperid) {
 							</ul>
 						</li>
 					</ul>
-				</div>
-			</div>
+<!--				</div>-->
+<!--			</div>-->
 		<!-- End of main -->
     `;
-    const footerContent = `
-		<!-- Footer -->
-			<div>
 
-			</div>
 
-		<!-- End of footer -->
-		`;
-    const modalContent = `
-        <h3>Something is went wrong. Click "OK" to reload page.</h3>
-        <button class="btn" id="reload">Ok</button>`;
-    const wrapper = document.getElementById(wrapperid);
-    createElement('header', headerContent, wrapper, ['header']);
-    createElement('main', mainContent, wrapper, ['main']);
-    createElement('footer', footerContent, wrapper, ['footer']);
-    createElement('div', modalContent, undefined, ['modal'], 'modal');
+    const pageStructure = {
+        tag: 'div', id: 'plagiartWrapper',
+        elements:
+            [
+            {tag: 'header', content: headerContent, classList: ['header'],
+                elements: [
+                    {tag: 'span', content: svgContent},
+                    {tag: 'div', classList: ['header-controls', 'header-controls-small']},
+                    {tag: 'div', classList: ['header-controls'],
+                    elements: [
+                        {tag: 'label', classList: ['label-radio'],
+                            elements: [
+                                {tag: 'input', classList: ['mode', 'input-radio'], id: 'scaleMode', type: 'radio', checked: true, name: 'mode'},
+                                {tag: 'span', attributes: [{attribute: 'data-translate', value: 'scale_mode'}]}
+                            ]
+                        },
+                        {tag: 'label', classList: ['label-radio'],
+                            elements: [
+                                {tag: 'input', classList: ['mode', 'input-radio'], id: 'compareMode', type: 'radio', checked: false, name: 'mode'},
+                                {tag: 'span', attributes: [{attribute: 'data-translate', value: 'compare_mode'}]}
+                            ]
+                        }
+                    ]},
+                    {tag: 'div', classList: ['header-controls', 'header-controls-small'],
+                    elements: [
+                        {tag: 'label', classList: ['language-radio'],
+                            elements: [
+                                {tag: 'input', classList: ['language', 'input-radio'], id: 'uk', type: 'radio', checked: true, name: 'language'},
+                                {tag: 'span'}
+                            ]},
+                        {tag: 'label', classList: ['language-radio'],
+                            elements: [
+                                {tag: 'input', classList: ['language', 'input-radio'], id: 'en', type: 'radio', name: 'language'},
+                                {tag: 'span'}
+                            ]}
+                    ]},
+                ]
+            },
+            {tag: 'main', classList: ['main'],
+                elements: [
+                    {tag: 'div', id: 'main-container', classList: ['wrapper'],
+                    elements: [
+                        {tag: 'div', classList: ['img-holder', 'wrapper-inner'], elements: [
+                                {tag: 'div', classList: ['canvas-wrapper'], id: 'original-wrapper',
+                                elements: [
+                                    {tag: 'canvas', id: 'original-image', classList: ['original-image']}
+                                ]},
+                                {tag: 'div', classList: ['canvas-wrapper', 'compare-mode__element'], id: 'copy-wrapper',
+                                    elements: [
+                                        {tag: 'canvas', id: 'copy-image', classList: ['copy-image']}
+                                    ]}
+                            ]},
+                        {tag: 'div', content: mainContent, classList: ['wrapper-inner', 'controll-panel']}
+                    ]}
+                ]
+            },
+            {tag: 'footer', classList: ['footer'],
+                elements: [
+                    {tag: 'div'}
+                ]
+            },
+        ]
+    };
+    const modalElement = {tag: 'div', classList: ['modal'], id: 'modal',
+        elements: [
+            {tag: 'h3', content: 'Something is went wrong. Click "OK" to reload page.'},
+            {tag: 'button', classList: ['btn'], id: 'reload', content: 'Ok'}
+        ]};
+    createElement(pageStructure);
+    createElement(modalElement);
 }
 
-function createElement(tag, content, parentElement, classList, id) {
+function createElement(element, domElement) {
+    const {tag, content, classList, id, attributes, type, checked, name} = element;
     const newElement = document.createElement(tag);
-    newElement.innerHTML = content;
-    if (parentElement) {
-        parentElement.append(newElement)
+    newElement.innerHTML = content ? content : '';
+    if (domElement) {
+        domElement.append(newElement)
     }  else {
         document.body.append(newElement);
     }
@@ -270,5 +301,23 @@ function createElement(tag, content, parentElement, classList, id) {
     }
     if (typeof id !== 'undefined') {
         newElement.setAttribute('id', id);
+    }
+    if (typeof type !== 'undefined') {
+        newElement.type = type;
+    }
+    if (typeof checked !== 'undefined') {
+        newElement.checked = checked;
+    }
+    if (typeof name !== 'undefined') {
+        newElement.name = name;
+    }
+    if (typeof attributes !== 'undefined') {
+        attributes.forEach( attr => {
+            newElement.setAttribute(attr.attribute, attr.value);
+        })
+    }
+
+    if (element.elements && element.elements.length) {
+        element.elements.forEach( item => createElement(item, newElement));
     }
 }

@@ -8,6 +8,8 @@ var concatCss = require('gulp-concat-css');
 
 function javascript() {
     return src('src/js/*.js')
+        .pipe(sourcemaps.init())
+        .pipe(sourcemaps.write())
         .pipe(concat('index.js'))
         // The gulp-uglify plugin won't update the filename
         .pipe(uglify())
