@@ -1,3 +1,3 @@
 # Leonardo
 Leonardo
-[Alt text](img/plagiart-2.gif)
+ <img src="img/plagiart-2.gif">
